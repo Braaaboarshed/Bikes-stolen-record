@@ -197,6 +197,9 @@ input{
   .card .title{
     font-size: 20px;
   }
+  .card-content{
+    align-items: center;
+  }
 .card-photo img{
     width: 100px;
     height: 100px;

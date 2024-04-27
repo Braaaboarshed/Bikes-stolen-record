@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { BikeContext } from "../BikeContext";
 
-const Filters = ({ setFilter, setDateRange, getSearchResult }: any) => {
+const Filters = () => {
+  const [filter, setFilter] = useState("");
+  const {searchQuery,setSearchQuery,noResult,setNoResult,setSpinner,setDateRange,setBikes,bikes,AllRecords,dateRange}:any = useContext(BikeContext) 
+
+    function getSearchResult() {
+        setSpinner(true)
+        setSearchQuery(filter);
+        if (searchQuery !== "")
+          setBikes(
+            bikes.filter((item: any) =>
+              new Date(item?.date_stolen * 1000)
+                .toISOString()
+                .split("T")[0]
+                .replace(/-/g, "/")
+                .includes(dateRange)
+            )
+          );
+        else {
+          setBikes(
+            AllRecords.filter((item: any) =>
+              new Date(item?.date_stolen * 1000)
+                .toISOString()
+                .split("T")[0]
+                .replace(/-/g, "/")
+                .includes(dateRange)
+            )
+          );
+        }
+        noResult && bikes.length !== 0 ? setNoResult(false) : setNoResult(true);
+        setSpinner(false)
+      }
+    
+    
   return (
     <div className="filters">
       <input
